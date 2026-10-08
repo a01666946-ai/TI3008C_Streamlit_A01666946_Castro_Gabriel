@@ -24,7 +24,7 @@ st.title("Explorador de operación")
 st.caption("Aplicación inicial para explorar resultados por área y región.")
 
 # TODO OBLIGATORIO: escribe tu nombre completo.
-st.write("**Desarrollado por:** Escribe aquí tu nombre")
+st.write("**Desarrollado por:** Gabriel Castro")
 
 st.sidebar.header("Filtros")
 
@@ -87,3 +87,69 @@ st.info(
 # - Organiza resultados y metodología en pestañas o en la barra lateral.
 # - Incluye una conclusión o recomendación basada en los datos visibles.
 
+
+# Mejora funcional - Opción C: Simulador de inversión
+
+st.divider()
+st.header("Simulador de inversión")
+
+st.write(
+    "Esta herramienta permite calcular el valor futuro "
+    "de una inversión utilizando interés compuesto."
+)
+
+# Entradas del usuario
+capital = st.number_input(
+    "Capital inicial ($ MXN)",
+    min_value=0.0,
+    value=10000.0,
+    step=1000.0
+)
+
+tasa = st.number_input(
+    "Rendimiento anual esperado (%)",
+    min_value=-100.0,
+    max_value=100.0,
+    value=8.0,
+    step=0.5
+)
+
+plazo = st.slider(
+    "Plazo de inversión (años)",
+    min_value=1,
+    max_value=50,
+    value=5
+)
+
+# Cálculo de interés compuesto
+valor_futuro = capital * (1 + tasa / 100) ** plazo
+ganancia = valor_futuro - capital
+
+# Resultados
+st.subheader("Resultados de la simulación")
+
+st.metric(
+    "Valor futuro estimado",
+    f"${valor_futuro:,.2f} MXN"
+)
+
+st.metric(
+    "Ganancia o pérdida estimada",
+    f"${ganancia:,.2f} MXN"
+)
+
+# Retroalimentación
+if capital == 0:
+    st.warning("Ingresa un capital mayor a cero.")
+elif ganancia > 0:
+    st.success("La inversión presenta un rendimiento positivo.")
+elif ganancia < 0:
+    st.warning("La inversión presenta una pérdida estimada.")
+else:
+    st.info("La inversión mantiene su valor inicial.")
+
+st.caption(
+    "Los resultados son estimaciones basadas en una tasa "
+    "anual constante. No incluyen impuestos, comisiones "
+    "ni inflación."
+)
